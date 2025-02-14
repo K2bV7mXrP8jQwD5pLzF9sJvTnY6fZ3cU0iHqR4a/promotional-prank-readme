@@ -3,23 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Notification</title>
+    <title>FCM Notifications</title>
 </head>
 <body>
-    <button onclick="showNotification()">Show Notification</button>
-    
-    <script>
-        function showNotification() {
-            if (Notification.permission === "granted") {
-                new Notification("Hello!", { body: "This is a web notification." });
-            } else if (Notification.permission !== "denied") {
-                Notification.requestPermission().then(permission => {
-                    if (permission === "granted") {
-                        new Notification("Hello!", { body: "This is a web notification." });
-                    }
+
+    <button onclick="">Enable Notifications</button>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+        import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-messaging.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyBw4HsKItJ_PT_fhwBAmXGTJqNlrAoTwJA",
+          authDomain: "prank-a744d.firebaseapp.com",
+          projectId: "prank-a744d",
+          storageBucket: "prank-a744d.firebasestorage.app",
+          messagingSenderId: "590464106843",
+          appId: "1:590464106843:web:6df121bcacd42f26dd9a7e"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+        const requestForToken = () => {
+            return getToken(messaging, { vapidKey: "KHPq64AqaNEOAzORw59qyRl3_5DxegT0UC8q37kxxFk" })
+                .then((currentToken) => {
+                if (currentToken) {
+                    return currentToken;
+                } else {
+                    alert(
+                    "No registration token available. Request permission to generate one."
+                    );
+                    return null;
+                }
+                })
+                .catch((err) => {
+                    alert("An error occurred while retrieving token - " + err);
+                    return null;
                 });
-            }
-        }
-    </script>
+            };
+
+            requestForToken();
+      </script>
+
 </body>
 </html>
