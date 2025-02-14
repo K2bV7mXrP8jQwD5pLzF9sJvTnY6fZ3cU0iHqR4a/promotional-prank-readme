@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Notification</title>
+</head>
+<body>
+    <button onclick="showNotification()">Show Notification</button>
+    
+    <script>
+        function showNotification() {
+            if (Notification.permission === "granted") {
+                new Notification("Hello!", { body: "This is a web notification." });
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        new Notification("Hello!", { body: "This is a web notification." });
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
